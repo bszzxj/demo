@@ -9,6 +9,7 @@
         class="query-input"
         v-model="queryInputer"
         placeholder="请输入姓名搜索🔍"
+        @input="handleQueryName"
       />
       <div class="btn-list">
         <el-button
@@ -128,6 +129,7 @@ let tableData = $ref([
     address: "No. 189, Grove St, Los Angeles",
   },
 ]);
+let tableDataCopy = Object.assign(tableData);
 let multipleSelection = $ref([]);
 let dialogFormVisible = $ref(false);
 let tableForm = $ref({
@@ -140,6 +142,20 @@ let tableForm = $ref({
 let dialogType = $ref("add");
 
 // 方法
+
+// 搜索
+const handleQueryName = (val) => {
+  // console.log(queryInput);不行
+  // console.log(val);行
+
+  if (val.length > 0) {
+    tableData = tableData.filter(
+      (item) => item.name.toLowerCase().match(val.toLowerCase()) //转小写
+    );
+  } else {
+    tableData = tableDataCopy;
+  }
+};
 
 // 编辑
 const handleEdit = (row) => {
