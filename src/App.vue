@@ -45,7 +45,13 @@
             style="color: #f56c6c"
             >删除</el-button
           >
-          <el-button link type="primary" size="small">编辑</el-button>
+          <el-button
+            link
+            type="primary"
+            size="small"
+            @click="handleEdit(scope.row)"
+            >编辑</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -135,6 +141,13 @@ let dialogType = $ref("add");
 
 // 方法
 
+// 编辑
+const handleEdit = (row) => {
+  dialogFormVisible = true;
+  dialogType = "edit";
+  tableForm = { ...row };
+};
+
 // 删除
 const handleRowDel = ({ id }) => {
   // console.log(id);
@@ -165,15 +178,21 @@ const handleSelectionChange = (val) => {
 const handleAdd = () => {
   dialogFormVisible = true; //打开弹窗
   tableForm = {};
+  dialogType = "add";
 };
 
 // 确认
 const dialogConfirm = () => {
   dialogFormVisible = false; //关闭弹窗
-  tableData.push({
-    id: tableData.length + 1,
-    ...tableForm,
-  });
+  if (dialogType === "add") {
+    tableData.push({
+      id: tableData.length + 1,
+      ...tableForm,
+    });
+  } else {
+    let index = tableData.findIndex((item) => item.id === tableForm.id);
+    tableData[index] = tableForm;
+  }
 };
 </script>
 
